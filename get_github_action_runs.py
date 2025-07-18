@@ -104,7 +104,6 @@ def get_github_actions_run(
     # Dump settings.
     max_no_of_pages = settings.get("max_no_of_pages")
     repo = settings.get("repo")
-    print(repo)
     no_of_results_per_page = settings.get("no_of_results_per_page")
     github_api_url = settings.get("github_api_url")
 
