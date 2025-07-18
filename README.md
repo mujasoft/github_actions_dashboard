@@ -1,15 +1,16 @@
 # GitHub Actions Dashboard Tool
 
-Summarize the situation with your github actions! 
+Summarize your CI workflow with real GitHub Actions data.
 
-This is a CLI tool that allows the user to fetch GitHub Actions workflow runs for any public or private repository, summarize them, and generate a helpful HTML dashboard.
+This CLI tool allows you to fetch GitHub Actions workflow runs from any public or private repository, compute metrics, and generate a polished, interactive HTML dashboard.
 
 The project consists of two primary components:
 
-1. **get_github_action_runs.py** which downloads workflow run data from the GitHub REST API and saves it as a JSON. 
+1. **get_github_action_runs.py** which downloads workflow run data from the GitHub REST API and saves it to a JSON file. 
 2. **summarize_results.py** which computes success/failure statistics and job durations, and renders a polished report using Semantic UI and Plotly.js.
 
----
+## Real Data, Not Mockups
+The included settings.toml pulls from actual, high-volume GitHub repositories like homebrew/brew and python/cpython. This tool processes authentic, production-grade CI data — no synthetic logs or dummy results.
 
 ## Features
 
@@ -18,10 +19,9 @@ The project consists of two primary components:
 - Summarize pass/fail counts, rates, and duration statistics
 - Generate an interactive HTML dashboard using Semantic UI and Plotly.js
 - Automatically opens the dashboard in the browser
-- Command-line interface built with Typer
+- Rich clean command-line interface built with Typer
 - GitHub authentication via personal access token
 
----
 ## Prerequisite
 ### Requirements
 
