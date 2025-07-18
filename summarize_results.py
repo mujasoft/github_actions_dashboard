@@ -152,7 +152,7 @@ def create_html(summary, filename):
   <title>GitHub Actions Dashboard</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/\
-    dist/semantic.min.css">
+dist/semantic.min.css">
   <style>
     body {{
       background: linear-gradient(to bottom right, #C0C0C0, #A9A9A9);
