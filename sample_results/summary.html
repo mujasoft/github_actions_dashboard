@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub Actions Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #C0C0C0, #A9A9A9);
+      padding: 0;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .top-bar {
+      background-color: #2185d0;
+      color: white;
+      padding: 1em 0;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .main-content {
+      padding: 2em;
+      margin-top: 2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    GITHUB ACTIONS DASHBOARD
+  </div>
+  <div class="ui container main-content">
+    <div class="ui segment">
+      <h3 class="ui dividing header">Repository Summary</h3>
+      <table class="ui blue celled table">
+        <tbody>
+          <tr><td><strong>Repository</strong></td><td>Homebrew/brew</td></tr>
+          <tr><td><strong>Total Runs</strong></td><td>150</td></tr>
+          <tr><td><strong>Success</strong></td><td>127 (84.7%)</td></tr>
+          <tr><td><strong>Failure</strong></td><td>23 (15.3%)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="ui segment">
+      <h3 class="ui dividing header">Stats & Chart</h3>
+      <div class="ui stackable two column grid">
+        <div class="column">
+          <table class="ui blue celled table">
+            <thead>
+              <tr><th>Metric</th><th>Time (seconds)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Average</td><td>272.21</td></tr>
+              <tr><td>Median</td><td>92.5</td></tr>
+              <tr><td>Min</td><td>0.0</td></tr>
+              <tr><td>Max</td><td>1658.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="column">
+          <div id="pie-chart" style="width: 100%; height: 400px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var data = [{
+      values: [127, 23],
+      labels: ['Successes', 'Failures'],
+      type: 'pie',
+      marker: {
+        colors: ['#4CAF50', '#F44336']
+      },
+      textinfo: 'label+percent',
+      insidetextorientation: 'radial'
+    }];
+
+    var layout = {
+      title: 'Success vs Failure Breakdown',
+      height: 400,
+      width: 500,
+      showlegend: true
+    };
+
+    Plotly.newPlot('pie-chart', data, layout);
+  </script>
+</body>
+</html>
