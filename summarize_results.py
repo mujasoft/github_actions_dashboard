@@ -3,6 +3,7 @@ from datetime import datetime
 import statistics
 import os
 import typer
+import webbrowser
 
 
 # Load typer.
@@ -58,11 +59,8 @@ def read_json_file_and_print_summary(filename: str = typer.Option(
                                      typer.Option('summary.html',
                                      help="Save a html report"
                                      " with this name")):
-    """Go through results from a .json and print a summary.
-
-    Args:
-        filename (str): location of json file.
-    """
+    """Go through results from a .json and print a summary and render
+    a html report."""
 
     if ".json" not in filename:
         filename = os.path.join(filename, ".json")
@@ -85,9 +83,9 @@ def read_json_file_and_print_summary(filename: str = typer.Option(
         duration = parse_duration(run)
         durations.append(duration)
 
+    repo_name = runs[0].get("repository", {}).get("full_name", "Unknown Repo")
     success_rate = round(100*(successes/total), 1)
     failure_rate = round(100*(failures/total), 1)
-
     duration_stats = get_statistics(durations)
 
     print("GitHub Actions Summary")
@@ -103,12 +101,13 @@ def read_json_file_and_print_summary(filename: str = typer.Option(
     print(f"    Median   : {duration_stats['median']}")
 
     summary_dict = {
+        "repo_name": repo_name,
         "successes": successes, "total": total, "failures": failures,
         "success_rate": success_rate, "failure_rate": failure_rate,
         "duration_stats": duration_stats
     }
 
-    create_html(summary_dict, "summary.html")
+    create_html(summary_dict, html_filename)
 
 
 def create_html(summary, filename):
@@ -218,7 +217,7 @@ def create_html(summary, filename):
 </body>
 </html>
 """.format(
-        "PlaceHolder",  # Later you can replace with a repo name
+        summary["repo_name"],
         summary["total"],
         summary["successes"], summary["success_rate"],
         summary["failures"], summary["failure_rate"],
@@ -231,7 +230,9 @@ def create_html(summary, filename):
 
     with open(filename, 'w') as f:
         f.write(html_plate)
-    print(f"\n✅ HTML summary written to {filename}")
+    print(f"\nHTML summary written to {filename}")
+
+    webbrowser.open(f"file://{os.path.abspath(filename)}")
 
 
 if __name__ == "__main__":
