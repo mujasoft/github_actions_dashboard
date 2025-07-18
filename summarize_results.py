@@ -1,7 +1,6 @@
 import json
 from datetime import datetime
 import statistics
-from pprint import pprint
 import os
 import typer
 
@@ -53,8 +52,12 @@ def get_statistics(list):
 @app.command()
 def read_json_file_and_print_summary(filename: str = typer.Option(
                                     'results.json',
-                                     help="Path to a .json containing\
-info of github action runs.")):
+                                     help="Path to a .json containing"
+                                          " info of github action runs."),
+                                     html_filename: str =
+                                     typer.Option('summary.html',
+                                     help="Save a html report"
+                                     " with this name")):
     """Go through results from a .json and print a summary.
 
     Args:
@@ -109,6 +112,16 @@ info of github action runs.")):
 
 
 def create_html(summary, filename):
+    """Create a summary html using a 
+
+    Args:
+        summary (dict): dictionary of results
+        filename (str): filename of rendered html
+    """
+
+    if 'html' not in filename:
+        filename = os.path.join(filename, ".html")
+
     html_plate = """
 <!DOCTYPE html>
 <html lang="en">
