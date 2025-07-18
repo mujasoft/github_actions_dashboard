@@ -99,6 +99,93 @@ info of github action runs.")):
     print(f"    Avg.     : {duration_stats['average']}")
     print(f"    Median   : {duration_stats['median']}")
 
+    summary_dict = {
+        "successes": successes, "total": total, "failures": failures,
+        "success_rate": success_rate, "failure_rate": failure_rate,
+        "duration_stats": duration_stats
+    }
+
+    create_html(summary_dict, "summary.html")
+
+
+def create_html(summary, filename):
+    html_plate = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub Actions Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+  <style>
+    body {{
+      background: linear-gradient(to bottom right, #C0C0C0, #A9A9A9);
+      padding: 0;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }}
+    .top-bar {{
+      background-color: #2185d0;
+      color: white;
+      padding: 1em 0;
+      font-size: 1.5em;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }}
+    .main-content {{
+      padding: 2em;
+      margin-top: 2em;
+    }}
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    GITHUB ACTIONS DASHBOARD
+  </div>
+  <div class="ui container main-content">
+    <div class="ui segment">
+      <h3 class="ui dividing header">Repository Summary</h3>
+      <table class="ui blue celled table">
+        <tbody>
+          <tr><td><strong>Repository</strong></td><td>{}</td></tr>
+          <tr><td><strong>Total Runs</strong></td><td>{}</td></tr>
+          <tr><td><strong>Success</strong></td><td>{} ({}%)</td></tr>
+          <tr><td><strong>Failure</strong></td><td>{} ({}%)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ui segment">
+      <h3 class="ui dividing header">Duration Stats</h3>
+      <table class="ui blue celled table">
+        <thead>
+          <tr><th>Metric</th><th>Time (seconds)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Average</td><td>{}</td></tr>
+          <tr><td>Median</td><td>{}</td></tr>
+          <tr><td>Min</td><td>{}</td></tr>
+          <tr><td>Max</td><td>{}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
+""".format(
+        "PlaceHolder",  # Repository (hardcoded or pass as param)
+        summary["total"],
+        summary["successes"], summary["success_rate"],
+        summary["failures"], summary["failure_rate"],
+        summary["duration_stats"]["average"],
+        summary["duration_stats"]["median"],
+        summary["duration_stats"]["min"],
+        summary["duration_stats"]["max"]
+    )
+
+    with open(filename, 'w') as f:
+        f.write(html_plate)
+
 
 if __name__ == "__main__":
     app()
