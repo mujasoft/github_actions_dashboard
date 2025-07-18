@@ -51,8 +51,10 @@ def get_statistics(list):
 
 
 @app.command()
-def read_json_file_and_print_summary(filename: str = 'results.json',
-                                     help="Path to local store."):
+def read_json_file_and_print_summary(filename: str = typer.Option(
+                                    'results.json',
+                                     help="Path to a .json containing\
+info of github action runs.")):
     """Go through results from a .json and print a summary.
 
     Args:
