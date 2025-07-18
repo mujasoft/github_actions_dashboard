@@ -116,6 +116,7 @@ def create_html(summary, filename):
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GitHub Actions Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
   <style>
     body {{
@@ -155,36 +156,69 @@ def create_html(summary, filename):
         </tbody>
       </table>
     </div>
+    
     <div class="ui segment">
-      <h3 class="ui dividing header">Duration Stats</h3>
-      <table class="ui blue celled table">
-        <thead>
-          <tr><th>Metric</th><th>Time (seconds)</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Average</td><td>{}</td></tr>
-          <tr><td>Median</td><td>{}</td></tr>
-          <tr><td>Min</td><td>{}</td></tr>
-          <tr><td>Max</td><td>{}</td></tr>
-        </tbody>
-      </table>
+      <h3 class="ui dividing header">Stats & Chart</h3>
+      <div class="ui stackable two column grid">
+        <div class="column">
+          <table class="ui blue celled table">
+            <thead>
+              <tr><th>Metric</th><th>Time (seconds)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Average</td><td>{}</td></tr>
+              <tr><td>Median</td><td>{}</td></tr>
+              <tr><td>Min</td><td>{}</td></tr>
+              <tr><td>Max</td><td>{}</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="column">
+          <div id="pie-chart" style="width: 100%; height: 400px;"></div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <script>
+    var data = [{{
+      values: [{}, {}],
+      labels: ['Successes', 'Failures'],
+      type: 'pie',
+      marker: {{
+        colors: ['#4CAF50', '#F44336']
+      }},
+      textinfo: 'label+percent',
+      insidetextorientation: 'radial'
+    }}];
+
+    var layout = {{
+      title: 'Success vs Failure Breakdown',
+      height: 400,
+      width: 500,
+      showlegend: true
+    }};
+
+    Plotly.newPlot('pie-chart', data, layout);
+  </script>
 </body>
 </html>
 """.format(
-        "PlaceHolder",  # Repository (hardcoded or pass as param)
+        "PlaceHolder",  # Later you can replace with a repo name
         summary["total"],
         summary["successes"], summary["success_rate"],
         summary["failures"], summary["failure_rate"],
         summary["duration_stats"]["average"],
         summary["duration_stats"]["median"],
         summary["duration_stats"]["min"],
-        summary["duration_stats"]["max"]
+        summary["duration_stats"]["max"],
+        summary["successes"], summary["failures"]
     )
 
     with open(filename, 'w') as f:
         f.write(html_plate)
+    print(f"\n✅ HTML summary written to {filename}")
 
 
 if __name__ == "__main__":
