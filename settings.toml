@@ -1,0 +1,50 @@
+[default]
+
+github_api_url = "https://api.github.com"
+repo = "Homebrew/brew"
+no_of_results_per_page = 50
+max_no_of_pages = 3 
+
+[homebrew]
+
+github_api_url = "https://api.github.com"
+repo = "Homebrew/brew"
+no_of_results_per_page = 50
+max_no_of_pages = 3 
+
+[cpython]
+repo = "python/cpython"
+no_of_results_per_page = 25
+max_no_of_pages = 2
+
+[react]
+repo = "facebook/react"
+max_no_of_pages = 3
+no_of_results_per_page = 50
+github_api_url = "https://api.github.com"
+
+[nextjs]
+repo = "vercel/next.js"
+max_no_of_pages = 3
+no_of_results_per_page = 50
+github_api_url = "https://api.github.com"
+
+[gh_cli]
+repo = "cli/cli"
+max_no_of_pages = 3
+no_of_results_per_page = 50
+github_api_url = "https://api.github.com"
+
+
+[yarn]
+repo = "yarnpkg/berry"
+max_no_of_pages = 2
+no_of_results_per_page = 40
+github_api_url = "https://api.github.com"
+
+
+[pytorch]
+repo = "pytorch/pytorch"
+max_no_of_pages = 2
+no_of_results_per_page = 20
+github_api_url = "https://api.github.com"
