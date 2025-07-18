@@ -1,13 +1,36 @@
-import requests
-import os
-import json
-import time
-import sys
-from dynaconf import Dynaconf
-import typer
+# MIT License
+#
+# Copyright (c) 2025 Mujaheed Khan
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 
-# Load config. 
-settings = Dynaconf(settings_files=["settings.toml"], environments=True, 
+import json
+import os
+import sys
+import time
+
+import requests
+import typer
+from dynaconf import Dynaconf
+
+# Load config.
+settings = Dynaconf(settings_files=["settings.toml"], environments=True,
                     default_env="default")
 
 # Load typer.
@@ -19,7 +42,7 @@ app = typer.Typer(
 def check_rate_limit_and_sleep_if_needed(github_api_url):
     """Check if rate limit has been exceeded and sleep if it did.
     """
-    
+
     headers = get_headers()
 
     # Get data through a get request.
@@ -40,7 +63,7 @@ def check_rate_limit_and_sleep_if_needed(github_api_url):
         time.sleep(sleep_time)
 
 
-def get_workflow_runs(headers, github_api_url, no_of_results_per_page, repo, 
+def get_workflow_runs(headers, github_api_url, no_of_results_per_page, repo,
                       page):
 
     url = f"{github_api_url}/repos/{repo}/actions/runs"
@@ -76,7 +99,7 @@ def get_github_actions_run(
 
     settings.configure(env=configuration_profile)
 
-    # Dump settings.    
+    # Dump settings.
     max_no_of_pages = settings.get("max_no_of_pages")
     repo = settings.get("repo")
     no_of_results_per_page = settings.get("no_of_results_per_page")
@@ -90,7 +113,7 @@ def get_github_actions_run(
         check_rate_limit_and_sleep_if_needed(github_api_url)
 
         print(f"*** Fetching page {page}")
-        status, data = get_workflow_runs(headers, github_api_url, 
+        status, data = get_workflow_runs(headers, github_api_url,
                                          no_of_results_per_page,
                                          repo, page)
         if not status:
@@ -136,4 +159,3 @@ def get_headers():
 if __name__ == "__main__":
 
     app()
-

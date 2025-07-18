@@ -1,14 +1,38 @@
+# MIT License
+#
+# Copyright (c) 2025 Mujaheed Khan
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
 import json
-from datetime import datetime
-import statistics
 import os
-import typer
+import statistics
 import webbrowser
+from datetime import datetime
+
+import typer
 
 
 # Load typer.
 app = typer.Typer(
-    help="A tool to read a json of github actions results and print a summary")
+    help="A tool that summarizes the information from captured github action\
+          runs data")
 
 
 def parse_duration(run):
@@ -51,16 +75,14 @@ def get_statistics(list):
 
 
 @app.command()
-def read_json_file_and_print_summary(filename: str = typer.Option(
-                                    'results.json',
-                                     help="Path to a .json containing"
-                                          " info of github action runs."),
-                                     html_filename: str =
-                                     typer.Option('summary.html',
-                                     help="Save a html report"
-                                     " with this name")):
-    """Go through results from a .json and print a summary and render
-    a html report."""
+def summarize(filename: str = typer.Option('results.json',
+                                           help="Path to a .json containing"
+                                                " info of github action"
+                                                " runs."),
+              html_filename: str = typer.Option('summary.html',
+                                                help="Save a html report"
+                                                     " with this name")):
+    """Summarize and generate a report from a specified json file."""
 
     if ".json" not in filename:
         filename = os.path.join(filename, ".json")
@@ -79,7 +101,7 @@ def read_json_file_and_print_summary(filename: str = typer.Option(
             successes += 1
         else:
             failures += 1
-        
+
         duration = parse_duration(run)
         durations.append(duration)
 
@@ -111,7 +133,7 @@ def read_json_file_and_print_summary(filename: str = typer.Option(
 
 
 def create_html(summary, filename):
-    """Create a summary html using a 
+    """Create a summary html using a
 
     Args:
         summary (dict): dictionary of results
@@ -129,7 +151,8 @@ def create_html(summary, filename):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>GitHub Actions Dashboard</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/\
+    dist/semantic.min.css">
   <style>
     body {{
       background: linear-gradient(to bottom right, #C0C0C0, #A9A9A9);
@@ -168,7 +191,7 @@ def create_html(summary, filename):
         </tbody>
       </table>
     </div>
-    
+
     <div class="ui segment">
       <h3 class="ui dividing header">Stats & Chart</h3>
       <div class="ui stackable two column grid">
@@ -232,6 +255,7 @@ def create_html(summary, filename):
         f.write(html_plate)
     print(f"\nHTML summary written to {filename}")
 
+    # Pop the report open in a browser for user convenience.
     webbrowser.open(f"file://{os.path.abspath(filename)}")
 
 
