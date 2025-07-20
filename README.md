@@ -1,3 +1,8 @@
+![Python](https://img.shields.io/badge/python-3.8+-blue)
+![License](https://img.shields.io/github/license/mujasoft/git_log_analyser)
+![Status](https://img.shields.io/badge/status-WIP-orange)
+![Demo Available](https://img.shields.io/badge/demo-available-green)
+
 # GitHub Actions Dashboard Tool
 
 Summarize your CI workflow with real GitHub Actions data.
@@ -11,6 +16,9 @@ The project consists of two primary components:
 
 ## Real Data, Not Mockups
 The included settings.toml pulls from actual, high-volume GitHub repositories like homebrew/brew and python/cpython. This tool processes authentic, production-grade CI data — no synthetic logs or dummy results.
+
+## Demo
+[Watch Demo (3m)](./demo.mov)
 
 ## Features
 
