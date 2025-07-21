@@ -1,9 +1,8 @@
+# GitHub Actions Dashboard Tool
 ![Python](https://img.shields.io/badge/python-3.8+-blue)
 ![License](https://img.shields.io/github/license/mujasoft/git_log_analyser)
 ![Status](https://img.shields.io/badge/status-WIP-orange)
 ![Demo Available](https://img.shields.io/badge/demo-available-green)
-
-# GitHub Actions Dashboard Tool
 
 Summarize your CI workflow with real GitHub Actions data.
 
